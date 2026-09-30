@@ -1,0 +1,32 @@
+name: Turnos GO Red
+
+on:
+  schedule:
+    - cron: '*/30 10-23 * * *'   # cada 30 min, de 7 a 20 hs de Argentina (hora UTC)
+  workflow_dispatch:              # para correrlo a mano
+
+jobs:
+  chequear:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar turnos
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          check() {
+            slug="$1"; nombre="$2"; link="$3"
+            json=$(curl -sS -X POST \
+              -H 'X-Requested-With: XMLHttpRequest' \
+              -d "slug_profesional=$slug" \
+              https://gored.com.ar/buscar/proximo_turno_go)
+            echo "$nombre: $json"
+            if [ "$(echo "$json" | jq -r .tiene_presencial)" = "true" ]; then
+              texto=$(echo "$json" | jq -r .texto)
+              curl -sS -H "Title: Turno GO Red" -H "Click: $link" \
+                -d "Turno presencial con $nombre: $texto" \
+                "https://ntfy.sh/$NTFY_TOPIC"
+            fi
+          }
+          check daniel-arguello-20190421111319 "Arguello (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/daniel-arguello/"
+          check lucila-zoratti-201902260 "Zoratti (confirmá que sea en ICR)" "https://gored.com.ar/perfil/lucila-zoratti-201902260/turnos"
+          check rocio-amormino "Amormino (confirmá que acepte Plata)" "https://gored.com.ar/busqueda/medicina-esencial-plata/todas/rocio-amormino/"
