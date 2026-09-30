@@ -15,8 +15,11 @@ jobs:
         run: |
           check() {
             slug="$1"; nombre="$2"; link="$3"
-            json=$(curl -sS -X POST \
+            rm -f cookies.txt
+            curl -sS -c cookies.txt -o /dev/null "$link"
+            json=$(curl -sS -b cookies.txt -X POST \
               -H 'X-Requested-With: XMLHttpRequest' \
+              -H "Referer: $link" \
               -d "slug_profesional=$slug" \
               https://gored.com.ar/buscar/proximo_turno_go)
             echo "$nombre: $json"
@@ -28,5 +31,5 @@ jobs:
             fi
           }
           check daniel-arguello-20190421111319 "Arguello (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/daniel-arguello/"
-          check lucila-zoratti-201902260 "Zoratti (confirmá que sea en ICR)" "https://gored.com.ar/perfil/lucila-zoratti-201902260/turnos"
+          check lucila-zoratti-201902260 "Zoratti (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/lucila-zoratti/"
           check rocio-amormino "Amormino (confirmá que acepte Plata)" "https://gored.com.ar/busqueda/medicina-esencial-plata/todas/rocio-amormino/"
