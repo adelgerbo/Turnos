@@ -1,8 +1,6 @@
 name: Turnos GO Red
 
 on:
-  schedule:
-    - cron: '*/30 10-23 * * *'   # cada 30 min, de 7 a 20 hs de Argentina (hora UTC)
   workflow_dispatch:              # para correrlo a mano
 
 jobs:
