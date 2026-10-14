@@ -28,6 +28,6 @@ jobs:
                 "https://ntfy.sh/$NTFY_TOPIC"
             fi
           }
-          check daniel-arguello-20190421111319 "Arguello (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/daniel-arguello/"
-          # check lucila-zoratti-201902260 "Zoratti (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/lucila-zoratti/"
+          # check daniel-arguello-20190421111319 "Arguello (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/daniel-arguello/"
+          check lucila-zoratti-201902260 "Zoratti (confirmá que sea en ICR)" "https://gored.com.ar/busqueda/medicina-esencial-plata/icr/lucila-zoratti/"
           # check rocio-amormino "Amormino (confirmá que acepte Plata)" "https://gored.com.ar/busqueda/medicina-esencial-plata/todas/rocio-amormino/"
